@@ -95,26 +95,8 @@ This application allows users to input a DNA sequence, which is then cleaned (i.
 
 ---
 
-## Customization
-
-- **Styling**:  
-  Modify the CSS to better match your desired aesthetic or branding.
-
-- **Genetic Code**:  
-  Update the genetic code mapping in the JavaScript section if a non-standard genetic code is required.
-
-- **Additional Features**:  
-  Extend functionality by adding features such as:
-  - Error handling for invalid sequences.
-  - Highlighting start and stop codons.
-  - Providing a downloadable output.
-
----
-
 ## License
 
 This project is open-source and available for use and modification. You can modify and distribute this tool under the terms of the [MIT License](https://opensource.org/licenses/MIT).
 
 ---
-
-Happy coding and enjoy translating your DNA sequences into proteins!
