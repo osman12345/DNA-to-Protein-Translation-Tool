@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA to Protein Translation Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #proteinOutput {
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        h3 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DNA to Protein Translation Tool</h1>
+        <textarea id="dnaInput" placeholder="Enter DNA sequence here..."></textarea>
+        <button onclick="translateDNA()">Translate</button>
+        <div id="proteinOutput"></div>
+    </div>
+    <script>
+        function translateDNA() {
+            const dnaInput = document.getElementById('dnaInput').value.toUpperCase().replace(/[^ATCG]/g, '');
+            const proteinOutput = document.getElementById('proteinOutput');
+            const geneticCode = {
+                'TTT': 'F', 'TTC': 'F', 'TTA': 'L', 'TTG': 'L',
+                'CTT': 'L', 'CTC': 'L', 'CTA': 'L', 'CTG': 'L',
+                'ATT': 'I', 'ATC': 'I', 'ATA': 'I', 'ATG': 'M',
+                'GTT': 'V', 'GTC': 'V', 'GTA': 'V', 'GTG': 'V',
+                'TCT': 'S', 'TCC': 'S', 'TCA': 'S', 'TCG': 'S',
+                'CCT': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P',
+                'ACT': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T',
+                'GCT': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A',
+                'TAT': 'Y', 'TAC': 'Y', 'TAA': '-', 'TAG': '-',
+                'CAT': 'H', 'CAC': 'H', 'CAA': 'Q', 'CAG': 'Q',
+                'AAT': 'N', 'AAC': 'N', 'AAA': 'K', 'AAG': 'K',
+                'GAT': 'D', 'GAC': 'D', 'GAA': 'E', 'GAG': 'E',
+                'TGT': 'C', 'TGC': 'C', 'TGA': '-', 'TGG': 'W',
+                'CGT': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG': 'R',
+                'AGT': 'S', 'AGC': 'S', 'AGA': 'R', 'AGG': 'R',
+                'GGT': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G'
+            };
+            function getProtein(sequence, frame) {
+                let protein = '';
+                for (let i = frame; i < sequence.length; i += 3) {
+                    const codon = sequence.substring(i, i + 3);
+                    if (codon.length === 3) {
+                        protein += geneticCode[codon] || '?';
+                    }
+                }
+                return protein;
+            }
+            function reverseComplement(sequence) {
+                return sequence.replace(/A/g, 't').replace(/T/g, 'a').replace(/C/g, 'g').replace(/G/g, 'c').toUpperCase().split('').reverse().join('');
+            }
+            const reverseSequence = reverseComplement(dnaInput);
+            proteinOutput.innerHTML = '';
+            for (let frame = 0; frame < 3; frame++) {
+                proteinOutput.innerHTML += '<h3>Forward Frame ' + (frame + 1) + ':</h3><div>' + getProtein(dnaInput, frame) + '</div>';
+                proteinOutput.innerHTML += '<h3>Reverse Frame ' + (frame + 1) + ':</h3><div>' + getProtein(reverseSequence, frame) + '</div>';
+            }
+        }
+    </script>
+</body>
+</html>
